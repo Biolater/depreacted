@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { HamburgerIcon } from "../Icons/index";
 import { Search } from "lucide-react";
 import HamburgerSidebarMenu from "./HamburgerSidebarMenu";
+import SidebarOverlay from "./SidebarOverlay";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 const Navbar = () => {
@@ -19,6 +20,7 @@ const Navbar = () => {
       <AnimatePresence>
         {sidebarOpen && <HamburgerSidebarMenu onClose={handleSidebarClose} />}
       </AnimatePresence>
+      <AnimatePresence>{sidebarOpen && <SidebarOverlay />}</AnimatePresence>
       <Link href="/" className="text-3xl">
         ⚕️
       </Link>

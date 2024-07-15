@@ -14,7 +14,7 @@ const HamburgerSidebarMenu: FC<{ onClose: () => void }> = ({ onClose }) => {
     createPortal(
       <motion.div
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="sidebar z-[9999] w-full fixed left-0 right-0 top-0 bottom-0 bg-black/80 h-screen"
+        className="sidebar z-[9999] w-full fixed left-0 right-0 top-0 bottom-0 h-screen"
       >
         <motion.div
           initial={{ x: "-100%" }}
