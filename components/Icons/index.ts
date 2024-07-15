@@ -1,3 +1,3 @@
 import HamburgerIcon from "./HamburgerIcon";
-
-export { HamburgerIcon }
+import CloseIcon from "./CloseIcon";
+export { HamburgerIcon, CloseIcon }

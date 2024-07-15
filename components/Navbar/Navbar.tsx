@@ -1,10 +1,24 @@
+"use client";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { HamburgerIcon } from "../Icons/index";
-import { Search } from 'lucide-react';
+import { Search } from "lucide-react";
+import HamburgerSidebarMenu from "./HamburgerSidebarMenu";
+import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
 const Navbar = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const handleSidebarOpen = () => {
+    setSidebarOpen(true);
+  };
+  const handleSidebarClose = () => {
+    setSidebarOpen(false);
+  };
   return (
     <header className="main-header flex items-center justify-between py-2 px-4 bg-primary text-primary-foreground">
+      <AnimatePresence>
+        {sidebarOpen && <HamburgerSidebarMenu onClose={handleSidebarClose} />}
+      </AnimatePresence>
       <Link href="/" className="text-3xl">
         ⚕️
       </Link>
@@ -18,7 +32,9 @@ const Navbar = () => {
             placeholder="Search..."
           />
         </div>
-        <HamburgerIcon className="cursor-pointer" />
+        <button className="cursor-pointer" onClick={handleSidebarOpen}>
+          <HamburgerIcon />
+        </button>
       </div>
     </header>
   );
