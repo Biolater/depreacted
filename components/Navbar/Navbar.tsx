@@ -22,7 +22,7 @@ const Navbar = () => {
       </AnimatePresence>
       <AnimatePresence>{sidebarOpen && <SidebarOverlay />}</AnimatePresence>
       <Link href="/" className="text-3xl">
-        ⚕️
+        Hb.
       </Link>
       <div className="main-header__right flex items-center gap-3">
         <div className="relative group/searchbar">
@@ -34,7 +34,7 @@ const Navbar = () => {
             placeholder="Search..."
           />
         </div>
-        <button className="cursor-pointer" onClick={handleSidebarOpen}>
+        <button className="cursor-pointer md:hidden" onClick={handleSidebarOpen}>
           <HamburgerIcon />
         </button>
       </div>
