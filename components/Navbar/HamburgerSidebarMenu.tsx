@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { CloseIcon } from "../Icons";
 import {
@@ -14,6 +15,7 @@ import { FC, useEffect, useState, useRef, MouseEventHandler } from "react";
 import { motion } from "framer-motion";
 import SidebarItem from "./SidebarItem";
 const HamburgerSidebarMenu: FC<{ onClose: () => void }> = ({ onClose }) => {
+  const pathName = usePathname();
   const TOP_SIDEBAR_ITEMS = [
     {
       label: "Home",
@@ -82,7 +84,7 @@ const HamburgerSidebarMenu: FC<{ onClose: () => void }> = ({ onClose }) => {
       <motion.div
         onClick={onOutsideClick}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="sidebar z-[9999] w-full fixed left-0 right-0 top-0 bottom-0 h-screen"
+        className="sidebar z-[9999] w-full fixed left-0 right-0 top-0 bottom-0 h-svh"
       >
         <motion.div
           ref={sidebarContentRef}
@@ -97,23 +99,29 @@ const HamburgerSidebarMenu: FC<{ onClose: () => void }> = ({ onClose }) => {
           </button>
           <div className="sidebar__content__body h-full flex flex-col justify-between p-5 overflow-y-auto">
             <div className="sidebar__content__body__top flex flex-col gap-1">
-              <h1 className="p-2 font-semibold text-xl">Health Bar</h1>
+              <h1 className="p-2 font-semibold text-foreground text-xl">
+                Health Bar
+              </h1>
               {TOP_SIDEBAR_ITEMS.map((item) => (
                 <SidebarItem
+                  onSelect={onClose}
                   key={item.href}
                   icon={item.icon}
                   label={item.label}
                   href={item.href}
+                  isActive={pathName === item.href}
                 />
               ))}
             </div>
             <div className="sidebar__content__body__bottom flex flex-col gap-1">
               {BOTTOM_SIDEBAR_ITEMS.map((item) => (
                 <SidebarItem
+                  onSelect={onClose}
                   key={item.href}
                   icon={item.icon}
                   label={item.label}
                   href={item.href}
+                  isActive={pathName === item.href}
                 />
               ))}
             </div>
