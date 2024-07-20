@@ -16,7 +16,7 @@ const SidebarOverlay = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="sidebar__overlay z-[9998] w-full h-screen absolute top-0 left-0 right-0 bottom-0 bg-black/80"
+        className="sidebar__overlay fixed z-[9998] w-full h-screen top-0 left-0 right-0 bottom-0 bg-black/80"
       ></motion.div>,
       document.body
     )
