@@ -20,7 +20,7 @@ export default function Home() {
           variants={variants}
           initial="initial"
           animate="animate"
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.4 }}
           className="text-3xl text-primary md:text-5xl font-semibold"
         >
           Your Health, Simplified
@@ -29,8 +29,8 @@ export default function Home() {
           variants={variants}
           initial="initial"
           animate="animate"
-          transition={{ delay: 0.4 }}
-          className="mt-2 md:mt-4 text-lg md:text-xl md:max-w-3xl mx-auto dark:text-foreground text-background"
+          transition={{ delay: 0.6 }}
+          className="mt-2 md:mt-4 text-lg md:text-xl md:max-w-3xl mx-auto text-white"
         >
           Find answers, manage your health, and connect with a supportive
           community. Get expert health information, tools, and support to
@@ -41,7 +41,7 @@ export default function Home() {
           variants={variants}
           initial="initial"
           animate="animate"
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.8 }}
         >
           <Button className="mt-6 md:mt-8">Get Started</Button>
         </motion.div>
