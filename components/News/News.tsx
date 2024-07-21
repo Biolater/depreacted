@@ -1,5 +1,12 @@
 "use client";
-import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import { Button } from "../ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -45,11 +52,17 @@ const News = () => {
                           alt="news"
                         />
                       </CardHeader>
-                      <CardContent className="flex aspect-square items-center justify-center p-6">
-                        <CardTitle className="text-xl">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit
+                      <CardContent className="flex flex-col text-center gap-4 items-center justify-center p-6">
+                        <CardTitle className="text-xl text-center">
+                          Sixth human case of bird flu reported in Colorado, CDC
+                          says
                         </CardTitle>
+                        <CardDescription>
+                          A new human case of highly pathogenic H5N1 avian flu
+                          has been identified in Colorado, the US Centers for
+                          Disease Control and Prevention said Friday.
+                        </CardDescription>
+                        <Button>Read more</Button>
                       </CardContent>
                     </Card>
                   </div>
