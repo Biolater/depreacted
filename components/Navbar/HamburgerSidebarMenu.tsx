@@ -84,7 +84,7 @@ const HamburgerSidebarMenu: FC<{ onClose: () => void }> = ({ onClose }) => {
       <motion.div
         onClick={onOutsideClick}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="sidebar z-[9999] w-full fixed left-0 right-0 top-0 bottom-0 h-svh"
+        className="sidebar z-[9999] w-full fixed left-0 right-0 top-0 bottom-0 h-full"
       >
         <motion.div
           ref={sidebarContentRef}
