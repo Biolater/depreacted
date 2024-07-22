@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
+      <body style={{ marginRight: "0px!important" }} className={poppins.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
