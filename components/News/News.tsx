@@ -414,7 +414,7 @@ const News = () => {
                             src={newsItem?.images?.thumbnail}
                             objectFit="cover"
                             width={280}
-                            height={280}
+                            height={200}
                             alt="news"
                           />
                         )}
