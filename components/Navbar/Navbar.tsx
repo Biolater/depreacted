@@ -32,8 +32,8 @@ const Navbar = () => {
       href: "/",
     },
     {
-      label: "Health",
-      href: "/health",
+      label: "Diseases & Conditions",
+      href: "/diseases-conditions",
     },
     {
       label: "Symptom Checker",
@@ -67,7 +67,7 @@ const Navbar = () => {
         <Link href="/" className="text-3xl">
           🩺
         </Link>
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           {navLinks.map((link) => (
             <NavLink
               isActive={pathName === link.href}
@@ -91,7 +91,7 @@ const Navbar = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button>
-                <Avatar className="hidden md:block text-foreground cursor-pointer">
+                <Avatar className="hidden lg:block text-foreground cursor-pointer">
                   <AvatarImage
                     src="https://github.com/shadcn.png"
                     alt="@shadcn"
@@ -135,7 +135,7 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           <button
-            className="cursor-pointer md:hidden"
+            className="cursor-pointer lg:hidden"
             onClick={handleSidebarOpen}
           >
             <HamburgerIcon />

@@ -23,8 +23,8 @@ const HamburgerSidebarMenu: FC<{ onClose: () => void }> = ({ onClose }) => {
       icon: <House />,
     },
     {
-      label: "Learn About Health",
-      href: "/learn",
+      label: "Diseases & Conditions",
+      href: "/diseases-conditions",
       icon: <Book />,
     },
     {
