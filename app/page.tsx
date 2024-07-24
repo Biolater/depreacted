@@ -1,10 +1,14 @@
-import { Hero, News } from "@/components/index";
+import { Hero, News, Features, Community } from "@/components/index";
 
 export default function Home() {
   return (
     <>
-      <Hero />
-      <News />
+      <main>
+        <Hero />
+        <News />
+        <Features />
+        <Community />
+      </main>
     </>
   );
 }

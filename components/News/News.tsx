@@ -19,6 +19,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+
 type Item = {
   title: string;
   snippet: string;
@@ -376,12 +377,12 @@ const News = () => {
   useEffect(() => {
     // fetchHealthNews()
     const timeout = setTimeout(() => {
-      setNewsLoading(false)
-    },5000)
-    return () => clearTimeout(timeout)
+      setNewsLoading(false);
+    }, 5000);
+    return () => clearTimeout(timeout);
   }, []);
   return (
-    <section id="news" className="px-4 py-8">
+    <section id="news" className="px-4 py-8 relative">
       <div className="mx-auto flex flex-col items-center justify-center max-w-7xl">
         <h1 className="text-3xl md:text-5xl mb-8 md:mb-12 text-primary font-bold text-center">
           Health related news

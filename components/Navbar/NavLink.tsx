@@ -9,8 +9,8 @@ const NavLink: FC<{ href: string; label: string; isActive: boolean }> = ({
     <Link
       className={`transition-colors duration-300 ${
         isActive
-          ? "text-background"
-          : "hover:text-background text-background/70 "
+          ? "text-white"
+          : "hover:text-white text-white/70 "
       } font-medium`}
       href={href}
     >

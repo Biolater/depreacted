@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Navbar } from "@/components/index";
+import { Navbar, Footer } from "@/components/index";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -20,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ marginRight: "0px!important" }} className={poppins.className}>
+      <body
+        style={{ marginRight: "0px!important" }}
+        className={poppins.className}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -28,6 +31,7 @@ export default function RootLayout({
         >
           <Navbar />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
