@@ -43,7 +43,7 @@ const Hero = () => {
           transition={{ delay: 0.8 }}
         >
           <Link href="#news">
-            <Button className="mt-6 md:mt-8">Get Started</Button>
+            <Button className="mt-6 md:mt-8 text-white">Start Now</Button>
           </Link>
         </motion.div>
       </div>

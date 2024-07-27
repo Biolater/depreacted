@@ -1,9 +1,9 @@
 "use client";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useEffect, useState } from "react";
 import { DiseaseConditionItem } from "@/components/index";
-
+import puppetter from "puppeteer";
 type DiseasesConditions = {
   [key: string]: string[];
 };
@@ -13,30 +13,30 @@ const DiseasesConditions = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchDiseasesConditions = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "diseases"));
-      const fetchedDiseases: DiseasesConditions = {};
-      querySnapshot.forEach((doc) => {
-        const data = doc.data() as DiseasesConditions;
+  // const fetchDiseasesConditions = async () => {
+  //   try {
+  //     const querySnapshot = await getDocs(collection(db, "diseases"));
+  //     const fetchedDiseases: DiseasesConditions = {};
+  //     querySnapshot.forEach((doc) => {
+  //       const data = doc.data() as DiseasesConditions;
 
-        const sortedKeys = Object.keys(data).sort();
+  //       const sortedKeys = Object.keys(data).sort();
 
-        for (const letter of sortedKeys) {
-          fetchedDiseases[letter] = data[letter];
-        }
-      });
-      setDiseases(fetchedDiseases);
-    } catch (error) {
-      console.error("Error fetching diseases:", error);
-      setError("An error occurred while fetching the diseases."); // Set error message
-    } finally {
-      setLoading(false);
-    }
-  };
+  //       for (const letter of sortedKeys) {
+  //         fetchedDiseases[letter] = data[letter];
+  //       }
+  //     });
+  //     setDiseases(fetchedDiseases);
+  //   } catch (error) {
+  //     console.error("Error fetching diseases:", error);
+  //     setError("An error occurred while fetching the diseases."); // Set error message
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
-    fetchDiseasesConditions();
+    // fetchDiseasesConditions();
   }, []);
 
   return (
@@ -47,7 +47,7 @@ const DiseasesConditions = () => {
         </h1>
 
         {loading ? (
-          <div className="flex justify-center items-center h-64"></div>
+          <div className="flex justify-center items-center"></div>
         ) : error ? (
           <p className="text-center text-red-500">{error}</p>
         ) : (

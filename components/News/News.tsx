@@ -436,7 +436,7 @@ const News = () => {
                               {newsItem?.snippet}
                             </CardDescription>
                             <Link target="_blank" href={newsItem?.newsUrl}>
-                              <Button>Read more</Button>
+                              <Button className="text-white">Read more</Button>
                             </Link>
                           </>
                         )}

@@ -13,7 +13,7 @@ const Community = () => {
             <p className="text-center text-white text-lg font-semibold mb-2">
               Join the community now!
             </p>
-            <p className="text-center mb-4 text-sm md:text-base lg:max-w-sm lg:mx-auto text-muted">
+            <p className="text-center mb-4 text-sm md:text-base lg:max-w-sm lg:mx-auto text-white/80">
               Find support, motivation, and friendship in our growing health
               community.
             </p>
