@@ -12,7 +12,7 @@ type DiseasesConditionsItem = {
     url: string;
   };
 };
-type DiseasesConditions = {
+type DiseasesConditions = { 
   [key: string]: DiseasesConditionsItem[];
 };
 
