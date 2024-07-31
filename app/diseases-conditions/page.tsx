@@ -2,8 +2,9 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useEffect, useState } from "react";
-import { DiseaseConditionItem } from "@/components/index";
+import { DiseaseConditionItem, Loading } from "@/components/index";
 import { Button } from "@/components/ui/button";
+
 type DiseasesConditionsItem = {
   name: string;
   url: string;
@@ -12,7 +13,7 @@ type DiseasesConditionsItem = {
     url: string;
   };
 };
-type DiseasesConditions = { 
+type DiseasesConditions = {
   [key: string]: DiseasesConditionsItem[];
 };
 
@@ -45,34 +46,6 @@ const DiseasesConditions = () => {
     fetchDiseasesConditions();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchDiseasesConditions = async () => {
-  //     try {
-  //       const response = await fetch("/diseases-conditions/api");
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       const data: DiseasesConditions = await response.json();
-  //       if (data) {
-  //         Object.entries(data).forEach(([letter, conditions]) => {
-  //           try {
-  //             setDoc(doc(db, "diseases", letter), {conditions}, { merge: true });
-  //           } catch (err) {
-  //             console.log(err);
-  //           }
-  //         });
-  //       }
-  //       setDiseases(data);
-  //     } catch (error) {
-  //       console.error("Error fetching diseases:", error);
-  //       setError("An error occurred while fetching the diseases.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchDiseasesConditions();
-  // }, []);
   return (
     <main className="px-4 py-8 sm:px-16 md:px-32">
       <div className="mx-auto max-w-7xl flex flex-col gap-6">
@@ -81,7 +54,7 @@ const DiseasesConditions = () => {
         </h1>
 
         {loading ? (
-          <div className="flex justify-center items-center">LOADING...</div>
+          <Loading />
         ) : error ? (
           <p className="text-center text-red-500">{error}</p>
         ) : (
@@ -97,7 +70,10 @@ const DiseasesConditions = () => {
                         : condition.seeMore.url
                     }
                   >
-                    <Button className="whitespace-break-spaces text-start" variant="link">
+                    <Button
+                      className="whitespace-break-spaces text-start"
+                      variant="link"
+                    >
                       {condition.seeMore.text === "N/A"
                         ? condition.name
                         : `${condition.name} - ${condition.seeMore.text}`}

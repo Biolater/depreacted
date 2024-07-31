@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "puppeteer.js", "firebase.ts", "a.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "puppeteer.js", "firebase.ts", "a.js", "utils/gemini.js"],
   "exclude": ["node_modules"]
 }

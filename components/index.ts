@@ -5,4 +5,14 @@ import Features from "./Features/Features";
 import Community from "./Community/Community";
 import Footer from "./Footer/Footer";
 import DiseaseConditionItem from "./DiseasesConditions/DiseaseConditionItem";
-export { Navbar, News, Hero, Features, Community, Footer, DiseaseConditionItem }
+import Loading from "./Loading/loading";
+export {
+  Navbar,
+  News,
+  Hero,
+  Features,
+  Community,
+  Footer,
+  DiseaseConditionItem,
+  Loading,
+};
