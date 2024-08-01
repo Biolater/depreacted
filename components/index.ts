@@ -5,7 +5,9 @@ import Features from "./Features/Features";
 import Community from "./Community/Community";
 import Footer from "./Footer/Footer";
 import DiseaseConditionItem from "./DiseasesConditions/DiseaseConditionItem";
-import Loading from "./Loading/loading";
+import Loading from "./Loading/Loading";
+import UserMessage from "./SymptomChecker/UserMessage";
+import AiMessage from "./SymptomChecker/AiMessage";
 export {
   Navbar,
   News,
@@ -15,4 +17,6 @@ export {
   Footer,
   DiseaseConditionItem,
   Loading,
+  UserMessage,
+  AiMessage,
 };
