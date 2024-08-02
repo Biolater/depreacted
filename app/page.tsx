@@ -1,4 +1,4 @@
-import { Hero, News, Features, Community } from "@/components/index";
+import { Hero, News, Features, Community, Footer } from "@/components/index";
 
 export default function Home() {
   return (

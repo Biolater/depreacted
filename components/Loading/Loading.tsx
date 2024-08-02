@@ -13,7 +13,7 @@ const Loading = () => {
   return (
     mounted &&
     createPortal(
-      <div className="loading inset-0 bg-black/80 fixed z-50 w-[100vw] h-[100vh] flex items-center justify-center">
+      <div className="loading inset-0 bg-black fixed z-50 w-[100vw] h-[100vh] flex items-center justify-center">
         <InfinitySpin width="200" color="hsl(var(--primary))" />
       </div>,
       document.body

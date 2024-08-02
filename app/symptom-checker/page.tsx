@@ -15,94 +15,34 @@ const SUGGESTIONS = [
   "What is flu symptoms ?",
 ];
 
+type ChatMessage = {
+  message: string;
+  from: "User" | "Ai";
+};
+
 const SymptomChecker = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const chatMessagesRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState("");
-  const [chatMessages, setChatMessages] = useState([
-    {
-      message: "Hi There",
-      from: "User",
-    },
-    {
-      message: "How can I help you ?",
-      from: "Ai",
-    },
-    {
-      message: "Hi There",
-      from: "User",
-    },
-    {
-      message: "How can I help you ?",
-      from: "Ai",
-    },
-    {
-      message: "Hi There",
-      from: "User",
-    },
-    {
-      message: "How can I help you ?",
-      from: "Ai",
-    },
-    {
-      message: "Hi There",
-      from: "User",
-    },
-    {
-      message: "How can I help you ?",
-      from: "Ai",
-    },
-    {
-      message: "Hi There",
-      from: "User",
-    },
-    {
-      message: "How can I help you ?",
-      from: "Ai",
-    },
-    {
-      message: "Hi There",
-      from: "User",
-    },
-    {
-      message: "How can I help you ?",
-      from: "Ai",
-    },
-    {
-      message: "Hi There",
-      from: "User",
-    },
-    {
-      message: "How can I help you ?",
-      from: "Ai",
-    },
-    {
-      message: "Hi There",
-      from: "User",
-    },
-    {
-      message: "How can I help you ?",
-      from: "Ai",
-    },
-    {
-      message: "Hi There",
-      from: "User",
-    },
-    {
-      message: "How can I help you ?",
-      from: "Ai",
-    },
-  ]);
-  const handleSend = () => {
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const handleSend = async () => {
     if (text.trim() !== "") {
       setChatMessages((prevMessages) => [
         ...prevMessages,
         { message: text, from: "User" },
       ]);
       setText("");
+      await run(text);
     } else {
       alert("Please enter a message");
     }
+  };
+  const handleSuggestionClick = async (suggestion: string) => {
+    setChatMessages((prevMessages) => [
+      ...prevMessages,
+      { message: suggestion, from: "User" },
+    ]);
+    await run(suggestion);
   };
   useEffect(() => {
     if (textareaRef.current) {
@@ -115,17 +55,17 @@ const SymptomChecker = () => {
       chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
     }
   }, [chatMessages]);
-  useEffect(() => {}, []);
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
   };
-  async function run() {
-    const prompt = "I feel sick. What should I do?";
-
+  async function run(prompt: string) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    console.log(text);
+    setChatMessages((prevMessages) => [
+      ...prevMessages,
+      { message: text, from: "Ai" },
+    ]);
   }
   return (
     <div className="w-full h-[calc(100svh-52px)] md:h-[calc(100svh-56px)] overflow-hidden justify-between flex flex-col mx-auto">
@@ -151,6 +91,7 @@ const SymptomChecker = () => {
           <div className="suggestions mb-4 gap-4 flex-wrap flex items-center justify-center">
             {SUGGESTIONS.map((suggestion) => (
               <Card
+                onClick={() => handleSuggestionClick(suggestion)}
                 key={suggestion}
                 className="p-4 w-full sm:w-[unset] cursor-pointer transition-colors duration-300 hover:bg-primary/10"
               >
