@@ -8,6 +8,7 @@ import DiseaseConditionItem from "./DiseasesConditions/DiseaseConditionItem";
 import Loading from "./Loading/Loading";
 import UserMessage from "./SymptomChecker/UserMessage";
 import AiMessage from "./SymptomChecker/AiMessage";
+import AiLoading from "./SymptomChecker/AiLoading";
 export {
   Navbar,
   News,
@@ -19,4 +20,5 @@ export {
   Loading,
   UserMessage,
   AiMessage,
+  AiLoading,
 };

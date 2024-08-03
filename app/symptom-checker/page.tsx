@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { UserMessage, AiMessage } from "@/components/index";
+import { UserMessage, AiMessage, AiLoading } from "@/components/index";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
 const genAI = new GoogleGenerativeAI(apiKey);
@@ -16,8 +16,8 @@ const SUGGESTIONS = [
 ];
 
 type ChatMessage = {
-  message: string;
-  from: "User" | "Ai";
+  message: string | null;
+  from: "User" | "Ai" | "AiLoading";
 };
 
 const SymptomChecker = () => {
@@ -25,7 +25,11 @@ const SymptomChecker = () => {
   const chatMessagesRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState("");
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [loading, setLoading] = useState(false);
   const handleSend = async () => {
+    if (loading) {
+      alert("Please wait until the model is ready");
+    }
     if (text.trim() !== "") {
       setChatMessages((prevMessages) => [
         ...prevMessages,
@@ -59,13 +63,27 @@ const SymptomChecker = () => {
     setText(event.target.value);
   };
   async function run(prompt: string) {
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    setChatMessages((prevMessages) => [
-      ...prevMessages,
-      { message: text, from: "Ai" },
-    ]);
+    try {
+      setLoading(true);
+      setChatMessages((prevMessages) => [
+        ...prevMessages,
+        { message: null, from: "AiLoading" },
+      ]);
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      setChatMessages((prevMessages) => {
+        prevMessages.splice(prevMessages.length - 1, 1, {
+          message: text,
+          from: "Ai",
+        });
+        return [...prevMessages];
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   }
   return (
     <div className="w-full h-[calc(100svh-52px)] md:h-[calc(100svh-56px)] overflow-hidden justify-between flex flex-col mx-auto">
@@ -75,10 +93,12 @@ const SymptomChecker = () => {
           className="max-w-7xl space-y-2 flex flex-col p-4 sm:px-16 md:px-32 mx-auto"
         >
           {chatMessages.map((message, index) => {
-            if (message.from === "User") {
+            if (message.from === "User" && message.message) {
               return <UserMessage key={index} message={message.message} />;
-            } else {
+            } else if (message.from === "Ai" && message.message) {
               return <AiMessage key={index} message={message.message} />;
+            } else {
+              return <AiLoading key={index} />;
             }
           })}
         </div>
@@ -115,9 +135,11 @@ const SymptomChecker = () => {
           ></textarea>
           <button
             onClick={handleSend}
-            disabled={!text}
+            disabled={!text || loading}
             className={`send-button self-end transition-colors duration-300 ${
-              text ? "bg-primary hover:bg-primary/60" : "bg-primary/60"
+              text && !loading
+                ? "bg-primary hover:bg-primary/60"
+                : "bg-primary/60"
             } rounded-full`}
           >
             <svg
