@@ -8,6 +8,7 @@ import HamburgerSidebarMenu from "./HamburgerSidebarMenu";
 import SidebarOverlay from "./SidebarOverlay";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { Playfair_Display_SC } from "next/font/google";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -24,6 +25,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import NavLink from "./NavLink";
+
+const playfairDisplaySC = Playfair_Display_SC({
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
 const Navbar = () => {
   const pathName = usePathname();
   const navLinks = [
@@ -58,14 +65,17 @@ const Navbar = () => {
     document.body.style.overflow = "auto";
   };
   return (
-    <header className="main-header z-10 sticky top-0 py-2 px-4 bg-primary text-primary-foreground">
+    <header className="main-header z-[60] sticky top-0 py-2 px-4 bg-primary text-primary-foreground">
       <div className="flex mx-auto max-w-7xl items-center justify-between">
         <AnimatePresence>
           {sidebarOpen && <HamburgerSidebarMenu onClose={handleSidebarClose} />}
         </AnimatePresence>
         <AnimatePresence>{sidebarOpen && <SidebarOverlay />}</AnimatePresence>
-        <Link href="/" className="text-3xl">
-          🩺
+        <Link
+          href="/"
+          className={`text-3xl bg-gradient-to-r from-secondary via-secondary to-accent inline-block text-transparent bg-clip-text ${playfairDisplaySC.className}`}
+        >
+          HB
         </Link>
         <div className="hidden lg:flex items-center gap-3">
           {navLinks.map((link) => (

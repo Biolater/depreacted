@@ -71,6 +71,9 @@ html {
   scroll-padding-top: 3rem;
 }
 
+body{
+  min-height: 100svh;
+}
 
 
 #hero {

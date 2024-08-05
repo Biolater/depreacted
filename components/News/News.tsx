@@ -412,7 +412,7 @@ const News = () => {
                           <Image
                             quality={100}
                             className="rounded-ss-xl rounded-se-xl w-full"
-                            src={newsItem?.images?.thumbnail}
+                            src={newsItem?.images?.thumbnail || newsItem?.images?.thumbnailProxied}
                             objectFit="cover"
                             width={280}
                             height={200}

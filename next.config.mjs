@@ -4,7 +4,13 @@ const nextConfig = {
         remotePatterns:[
             {
                 protocol: 'https',
-                hostname: 'news.google.com'
+                hostname: 'news.google.com',
+                pathname: '/api/attachments/**'
+            },
+            {
+                protocol: 'https',
+                hostname: 'i.zedtranslate.com',
+                pathname: '/newsimage/**'
             }
         ]
     }
