@@ -20,7 +20,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
-type Item = {
+export type Item = {
   title: string;
   snippet: string;
   publisher: string;
@@ -34,7 +34,7 @@ type Item = {
   subnews?: Item[];
 };
 
-type HealthNews = {
+export type HealthNews = {
   status: string;
   items: Item[];
 };
@@ -413,7 +413,6 @@ const News = () => {
                             quality={100}
                             className="rounded-ss-xl rounded-se-xl w-full"
                             src={newsItem?.images?.thumbnail || newsItem?.images?.thumbnailProxied}
-                            objectFit="cover"
                             width={280}
                             height={200}
                             alt="news"

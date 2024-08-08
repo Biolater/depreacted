@@ -16,12 +16,8 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import NavLink from "./NavLink";
@@ -93,7 +89,7 @@ const Navbar = () => {
               <Search className="w-full h-full group-hover/searchbar:stroke-primary transition-all" />
             </div>
             <Input
-              className="inline-flex items-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input hover:bg-accent hover:text-accent-foreground pe-4 ps-6 py-2 relative h-8 justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none w-44 sm:w-32 lg:w-64"
+              className="inline-flex items-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input hover:bg-accent hover:text-accent-foreground pe-4 ps-6 py-2 relative h-8 justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none w-44 sm:w-56 lg:w-64"
               placeholder="Search for diseases, symptoms, or articles"
               title="Search for diseases, symptoms, or articles"
             />
@@ -110,7 +106,7 @@ const Navbar = () => {
                 </Avatar>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 me-4">
+            <DropdownMenuContent sticky="always" className="w-56 me-4">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>

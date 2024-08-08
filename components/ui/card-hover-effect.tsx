@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
@@ -10,8 +10,14 @@ export const HoverEffect = ({
 }: {
   items: {
     title: string;
-    description: string;
-    link: string;
+    snippet: string;
+    publisher: string;
+    timestamp: string;
+    images: {
+      thumbnail: string;
+      thumbnailProxied: string;
+    };
+    newsUrl: string;
   }[];
   className?: string;
 }) => {
@@ -20,14 +26,14 @@ export const HoverEffect = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  py-10",
+        "grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3",
         className
       )}
     >
       {items.map((item, idx) => (
         <Link
-          href={item?.link}
-          key={item?.link}
+          href={item?.newsUrl}
+          key={item?.newsUrl}
           className="relative group  block p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -51,7 +57,7 @@ export const HoverEffect = ({
           </AnimatePresence>
           <Card>
             <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
+            <CardDescription>{item.snippet}</CardDescription>
           </Card>
         </Link>
       ))}
@@ -69,7 +75,7 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-full p-4 overflow-hidden bg-primary border border-transparent group-hover:border-slate-700 relative z-20",
+        "rounded-2xl h-full w-full p-4 overflow-hidden bg-primary  relative z-20",
         className
       )}
     >
@@ -87,7 +93,12 @@ export const CardTitle = ({
   children: React.ReactNode;
 }) => {
   return (
-    <h4 className={cn("text-primary-foreground font-bold tracking-wide mt-4", className)}>
+    <h4
+      className={cn(
+        "text-primary-foreground font-bold tracking-wide mt-4",
+        className
+      )}
+    >
       {children}
     </h4>
   );
