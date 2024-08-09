@@ -9,7 +9,7 @@ import Loading from "./Loading/Loading";
 import UserMessage from "./SymptomChecker/UserMessage";
 import AiMessage from "./SymptomChecker/AiMessage";
 import AiLoading from "./SymptomChecker/AiLoading";
-
+import ScrollToTop from "./ScrollToTop/ScrollToTop";
 export {
   Navbar,
   News,
@@ -22,4 +22,5 @@ export {
   UserMessage,
   AiMessage,
   AiLoading,
+  ScrollToTop
 };

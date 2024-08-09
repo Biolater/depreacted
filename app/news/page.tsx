@@ -273,10 +273,10 @@ const projects = {
   ],
 };
 
-import type { HealthNews } from "@/components/News/News";
+import { type HealthNews } from "@/components/News/News";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
-
+import { ScrollToTop, Loading } from "@/components/index";
 const twoDays = 2 * 24 * 60 * 60;
 
 const News = () => {
@@ -284,72 +284,77 @@ const News = () => {
   const [error, setError] = useState<string | null>(null);
   const [news, setNews] = useState<HealthNews | null>(null);
   const [newsCount, setNewsCount] = useState(10);
-  const [displayLoadMoreButton, setDisplayLoadMoreButton] = useState(true);
+  const [displayLoadMoreButton, setDisplayLoadMoreButton] = useState(false);
   const { toast } = useToast();
   const handleLoadMoreButton = () => {
     setNewsCount((prevNewsCount) => prevNewsCount + 10);
   };
-  // useEffect(() => {
-  //   if (error) {
-  //     toast({
-  //       variant: "destructive",
-  //       title: "Failed to fetch news.",
-  //       description: error,
-  //     });
-  //   }
-  // }, [error]);
-  // useEffect(() => {
-  //   const fetchNews = async () => {
-  //     const url = "https://google-news13.p.rapidapi.com/health?lr=en-US";
-  //     const options = {
-  //       method: "GET",
-  //       headers: {
-  //         "x-rapidapi-key": process.env.NEXT_PUBLIC_RAPID_API_KEY || "",
-  //         "x-rapidapi-host": "google-news13.p.rapidapi.com",
-  //       },
-  //     };
-  //     try {
-  //       const response = await fetch(url, {
-  //         ...options,
-  //         cache: "force-cache",
-  //         next: { revalidate: twoDays },
-  //       });
-  //       if (!response.ok) {
-  //         const errorData = await response.json();
-  //         throw new Error(errorData.message || response.statusText);
-  //       }
-  //       const data: HealthNews = await response.json();
-  //       if (data && data.status === "success" && data.items.length > newsCount) {
-  //         data.items = data.items.slice(0, newsCount);
-  //         setNews(data);
-  //         setError(null);
-  //         setDisplayLoadMoreButton(true)
-  //       }
-  //     } catch (error) {
-  //       if (error instanceof Error) {
-  //         setError(error.message);
-  //         setDisplayLoadMoreButton(false);
-  //       } else {
-  //         setError("An unknown error occured, please try again.");
-  //         setDisplayLoadMoreButton(false);
-  //       }
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchNews();
-  // }, [newsCount]);
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Failed to fetch news.",
+        description: error,
+      });
+    }
+  }, [error]);
+  useEffect(() => {
+    const fetchNews = async () => {
+      const url = "https://google-news13.p.rapidapi.com/health?lr=en-US";
+      const options = {
+        method: "GET",
+        headers: {
+          "x-rapidapi-key": process.env.NEXT_PUBLIC_RAPID_API_KEY || "",
+          "x-rapidapi-host": "google-news13.p.rapidapi.com",
+        },
+      };
+      try {
+        const response = await fetch(url, {
+          ...options,
+          cache: "force-cache",
+          next: { revalidate: twoDays },
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || response.statusText);
+        }
+        const data: HealthNews = await response.json();
+        if (
+          data &&
+          data.status === "success" &&
+          data.items.length > newsCount
+        ) {
+          setDisplayLoadMoreButton(true);
+        } else {
+          setDisplayLoadMoreButton(false);
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+          setDisplayLoadMoreButton(false);
+        } else {
+          setError("An unknown error occured, please try again.");
+          setDisplayLoadMoreButton(false);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNews();
+  }, [newsCount]);
   return (
     <main id="news" className="px-4 py-8 sm:px-16 md:px-32">
+      {loading && <Loading />}
       <h1 className="text-3xl md:text-5xl mb-8 md:mb-12 text-primary font-bold text-center">
         News
       </h1>
-      <HoverEffect items={projects.items} />
+      <HoverEffect items={news?.items || projects.items} />
       {displayLoadMoreButton && (
-        <div className="w-full p-4 flex items-center justify-center">
+        <div className="w-full pt-4 flex items-center justify-center">
           <Button onClick={handleLoadMoreButton}>Load More</Button>
         </div>
       )}
+      <ScrollToTop />
     </main>
   );
 };

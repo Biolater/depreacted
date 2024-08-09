@@ -2,7 +2,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useEffect, useState } from "react";
-import { DiseaseConditionItem, Loading, Footer } from "@/components/index";
+import { DiseaseConditionItem, Loading, ScrollToTop } from "@/components/index";
 import { Button } from "@/components/ui/button";
 
 type DiseasesConditionsItem = {
@@ -85,6 +85,7 @@ const DiseasesConditions = () => {
           ))
         )}
       </div>
+      <ScrollToTop />
     </main>
   );
 };
