@@ -30,12 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        style={{ marginRight: "0px!important" }}
         className={poppins.className}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           disableTransitionOnChange
         >
           <Navbar />

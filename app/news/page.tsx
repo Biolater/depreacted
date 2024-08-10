@@ -272,32 +272,23 @@ const projects = {
     },
   ],
 };
-
 import { type HealthNews } from "@/components/News/News";
-import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { ScrollToTop, Loading } from "@/components/index";
+import { useToast } from "@/components/ui/use-toast";
 const twoDays = 2 * 24 * 60 * 60;
 
 const News = () => {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [news, setNews] = useState<HealthNews | null>(null);
   const [newsCount, setNewsCount] = useState(10);
   const [displayLoadMoreButton, setDisplayLoadMoreButton] = useState(false);
-  const { toast } = useToast();
+  const [initialFetch, setInitialFetch] = useState(true);
   const handleLoadMoreButton = () => {
+    setLoading(true);
     setNewsCount((prevNewsCount) => prevNewsCount + 10);
   };
-  useEffect(() => {
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "Failed to fetch news.",
-        description: error,
-      });
-    }
-  }, [error]);
+  const { toast } = useToast();
   useEffect(() => {
     const fetchNews = async () => {
       const url = "https://google-news13.p.rapidapi.com/health?lr=en-US";
@@ -314,26 +305,28 @@ const News = () => {
           cache: "force-cache",
           next: { revalidate: twoDays },
         });
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || response.statusText);
-        }
         const data: HealthNews = await response.json();
-        if (
-          data &&
-          data.status === "success" &&
-          data.items.length > newsCount
-        ) {
+        if (data && data.items?.length > newsCount) {
+          data.items = data.items.slice(0, newsCount);
+          setNews(data);
           setDisplayLoadMoreButton(true);
         } else {
+          setNews(data);
           setDisplayLoadMoreButton(false);
+        }
+        if (!initialFetch) {
+          toast({
+            variant: "default",
+            title: "News Loaded",
+            description: "News has been loaded successfully",
+          });
         }
       } catch (error) {
         if (error instanceof Error) {
-          setError(error.message);
+          console.error(error.message);
           setDisplayLoadMoreButton(false);
         } else {
-          setError("An unknown error occured, please try again.");
+          console.error("An unknown error occurred:", error);
           setDisplayLoadMoreButton(false);
         }
       } finally {
@@ -342,6 +335,10 @@ const News = () => {
     };
     fetchNews();
   }, [newsCount]);
+  useEffect(() => {
+    setInitialFetch(false);
+    return () => setInitialFetch(true);
+  }, []);
   return (
     <main id="news" className="px-4 py-8 sm:px-16 md:px-32">
       {loading && <Loading />}

@@ -22,5 +22,5 @@ export {
   UserMessage,
   AiMessage,
   AiLoading,
-  ScrollToTop
+  ScrollToTop,
 };

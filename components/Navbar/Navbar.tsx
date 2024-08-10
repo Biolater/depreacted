@@ -6,20 +6,11 @@ import { HamburgerIcon } from "../Icons/index";
 import { Search } from "lucide-react";
 import HamburgerSidebarMenu from "./HamburgerSidebarMenu";
 import SidebarOverlay from "./SidebarOverlay";
+import UserProfileMenu from "./UserProfileMenu";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Playfair_Display_SC } from "next/font/google";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import NavLink from "./NavLink";
 
 const playfairDisplaySC = Playfair_Display_SC({
@@ -52,6 +43,7 @@ const Navbar = () => {
     },
   ];
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [userDropdownMenuOpen, setUserDropdownMenuOpen] = useState(false);
   const handleSidebarOpen = () => {
     setSidebarOpen(true);
     document.body.style.overflow = "hidden";
@@ -60,6 +52,12 @@ const Navbar = () => {
     setSidebarOpen(false);
     document.body.style.overflow = "auto";
   };
+  const handleAvatarClick = () => {
+    setUserDropdownMenuOpen((prev) => !prev);
+  };
+  const handleEscClick = () => {
+    setUserDropdownMenuOpen(false);
+  };
   return (
     <header className="main-header z-[60] sticky top-0 py-2 px-4 bg-primary text-primary-foreground">
       <div className="flex mx-auto max-w-7xl items-center justify-between">
@@ -67,9 +65,14 @@ const Navbar = () => {
           {sidebarOpen && <HamburgerSidebarMenu onClose={handleSidebarClose} />}
         </AnimatePresence>
         <AnimatePresence>{sidebarOpen && <SidebarOverlay />}</AnimatePresence>
+        <AnimatePresence>
+          {userDropdownMenuOpen && (
+            <UserProfileMenu handleEscClick={handleEscClick} />
+          )}
+        </AnimatePresence>
         <Link
           href="/"
-          className={`text-3xl bg-gradient-to-r from-secondary via-secondary to-accent inline-block text-transparent bg-clip-text ${playfairDisplaySC.className}`}
+          className={`text-3xl text-white ${playfairDisplaySC.className}`}
         >
           HB
         </Link>
@@ -94,52 +97,12 @@ const Navbar = () => {
               title="Search for diseases, symptoms, or articles"
             />
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button>
-                <Avatar className="hidden lg:block text-foreground cursor-pointer">
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                  />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent sticky="always" className="w-56 me-4">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <Link href="/profile">
-                  <DropdownMenuItem>
-                    Profile
-                    <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                </Link>
-                <DropdownMenuItem>
-                  Notifications
-                  <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
-                </DropdownMenuItem>
-                <Link href="/settings">
-                  <DropdownMenuItem>
-                    Settings
-                    <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                </Link>
-                <Link href="/messages">
-                  <DropdownMenuItem>
-                    Messages
-                    <DropdownMenuShortcut>⌘M</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                </Link>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                Log out
-                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <button onClick={handleAvatarClick}>
+            <Avatar className="hidden lg:block text-foreground cursor-pointer">
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </button>
           <button
             className="cursor-pointer lg:hidden"
             onClick={handleSidebarOpen}
