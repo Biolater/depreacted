@@ -12,6 +12,8 @@ import { useState } from "react";
 import { Playfair_Display_SC } from "next/font/google";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import NavLink from "./NavLink";
+import Logo from "@/assets/logo.svg";
+import Image from "next/image";
 
 const playfairDisplaySC = Playfair_Display_SC({
   subsets: ["latin"],
@@ -70,11 +72,15 @@ const Navbar = () => {
             <UserProfileMenu handleEscClick={handleEscClick} />
           )}
         </AnimatePresence>
-        <Link
-          href="/"
-          className={`text-3xl text-white ${playfairDisplaySC.className}`}
-        >
-          HB
+        <Link href="/">
+          <Image
+            quality={100}
+            priority
+            src={Logo}
+            alt="Health Bar Logo"
+            width={40}
+            height={40}
+          />
         </Link>
         <div className="hidden lg:flex items-center gap-3">
           {navLinks.map((link) => (

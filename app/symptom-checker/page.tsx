@@ -86,7 +86,10 @@ const SymptomChecker = () => {
     }
   }
   return (
-    <main id="symptom-checker" className="w-full h-[calc(100svh-52px)] md:h-[calc(100svh-56px)] overflow-hidden justify-between flex flex-col mx-auto">
+    <main
+      id="symptom-checker"
+      className="w-full h-[calc(100svh-56px)] overflow-hidden justify-between flex flex-col mx-auto"
+    >
       <div className="overflow-y-auto h-full">
         {chatMessages.length === 0 && !loading && (
           <h1 className="text-center pt-4 sm:pt-8 text-3xl text-primary font-semibold">
