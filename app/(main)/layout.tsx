@@ -5,7 +5,6 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <>
       <Navbar />
       {children}
-      <Footer />
     </>
   );
 };

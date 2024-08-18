@@ -9,17 +9,40 @@ import SidebarOverlay from "./SidebarOverlay";
 import UserProfileMenu from "./UserProfileMenu";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Playfair_Display_SC } from "next/font/google";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 import NavLink from "./NavLink";
 import Logo from "@/assets/logo.svg";
 import Image from "next/image";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "../ui/button";
 
-const playfairDisplaySC = Playfair_Display_SC({
-  subsets: ["latin"],
-  weight: ["400"],
-});
+interface AUTH_BUTTON {
+  label: string;
+  href: string;
+  variant:
+    | "ghost"
+    | "default"
+    | "link"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | null
+    | undefined;
+}
 
+const AUTH_BUTTONS: AUTH_BUTTON[] = [
+  {
+    label: "Sign In",
+    href: "/sign-in",
+    variant: "ghost",
+  },
+  {
+    label: "Sign Up",
+    href: "/sign-up",
+    variant: "secondary",
+  },
+];
 const Navbar = () => {
   const pathName = usePathname();
   const navLinks = [
@@ -44,6 +67,7 @@ const Navbar = () => {
       href: "/community",
     },
   ];
+  const { user, loading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userDropdownMenuOpen, setUserDropdownMenuOpen] = useState(false);
   const handleSidebarOpen = () => {
@@ -93,22 +117,43 @@ const Navbar = () => {
           ))}
         </div>
         <div className="main-header__right flex items-center gap-1 sm:gap-2 md:gap-3">
-          <div className="relative group/searchbar">
-            <div className="absolute z-10 left-[5px] size-4 top-1/2 -translate-y-1/2">
-              <Search className="w-full h-full group-hover/searchbar:stroke-primary transition-all" />
-            </div>
-            <Input
-              className="inline-flex items-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input hover:bg-accent hover:text-accent-foreground pe-4 ps-6 py-2 relative h-8 justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none w-44 sm:w-56 lg:w-64"
-              placeholder="Search for diseases, symptoms, or articles"
-              title="Search for diseases, symptoms, or articles"
-            />
-          </div>
-          <button onClick={handleAvatarClick}>
-            <Avatar className="hidden lg:block text-foreground cursor-pointer">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </button>
+          {!loading && user && (
+            <>
+              <div className="relative group/searchbar">
+                <div className="absolute z-10 left-[5px] size-4 top-1/2 -translate-y-1/2">
+                  <Search className="w-full h-full group-hover/searchbar:stroke-primary transition-all" />
+                </div>
+                <Input
+                  className="inline-flex items-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input hover:bg-accent hover:text-accent-foreground pe-4 ps-6 py-2 relative h-8 justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none w-44 sm:w-56 lg:w-64"
+                  placeholder="Search for diseases, symptoms, or articles"
+                  title="Search for diseases, symptoms, or articles"
+                />
+              </div>
+              <button onClick={handleAvatarClick}>
+                <Avatar className="hidden lg:block text-foreground cursor-pointer">
+                  <AvatarImage
+                    src={user?.photoURL || ""}
+                    alt={user?.displayName || "Profile avatar"}
+                  />
+                  <AvatarFallback>
+                    {user?.displayName?.charAt(0) || ""}
+                  </AvatarFallback>
+                </Avatar>
+              </button>
+            </>
+          )}
+          {!loading &&
+            !user &&
+            AUTH_BUTTONS.map((button) => (
+              <Link href={button.href} key={button.label}>
+                <Button key={button.label} variant={button.variant}>
+                  {button.label}
+                </Button>
+              </Link>
+            ))}
+          {loading && (
+            <Skeleton className="size-10 rounded-full bg-secondary/60" />
+          )}
           <button
             className="cursor-pointer lg:hidden"
             onClick={handleSidebarOpen}

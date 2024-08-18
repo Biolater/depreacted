@@ -95,3 +95,15 @@ body{
   background-color: rgba(0, 0, 0, 0.6);
   z-index: -1;
 }
+
+
+.signup-line .divider{
+  display: inline-block;
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 16px;
+  background: #fff;
+  font: normal 14px / 14px "Mona Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

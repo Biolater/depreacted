@@ -1,4 +1,4 @@
-import { Hero, News, Features, Community, ScrollToTop } from "@/components/index";
+import { Hero, News, Features, Community, ScrollToTop, Footer } from "@/components/index";
 
 export default function Home() {
   return (
@@ -10,6 +10,7 @@ export default function Home() {
         <Community />
         <ScrollToTop  />
       </main>
+      <Footer />
     </>
   );
 }

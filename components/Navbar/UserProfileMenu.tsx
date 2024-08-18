@@ -3,8 +3,10 @@ import { createPortal } from "react-dom";
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase"
 import Link from "next/link";
-// import { getAuth, signOut } from "firebase/auth";
+import { useToast } from "../ui/use-toast";
 import {
   Bell,
   CircleUserRound,
@@ -18,9 +20,9 @@ type Props = {
 };
 
 const UserProfileMenu: React.FC<Props> = ({ handleEscClick }) => {
-  // const auth = getAuth();
   const [isMounted, setIsMounted] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast()
   useEffect(() => {
     setIsMounted(true);
     return () => setIsMounted(false);
@@ -46,13 +48,17 @@ const UserProfileMenu: React.FC<Props> = ({ handleEscClick }) => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [handleEscClick]);
-  // const handleLogOut = async () => {
-  //   try {
-  //     signOut(auth);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const handleLogOut = async () => {
+    try {
+      await signOut(auth);
+      toast({
+        title: "Logged out",
+        description: "You have successfully logged out.",
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const MENU_ITEMS = [
     {
       text: "Profile",
@@ -79,7 +85,10 @@ const UserProfileMenu: React.FC<Props> = ({ handleEscClick }) => {
   const BOTTOM_MENU_ITEMS = [
     {
       text: "Log out",
-      action: () => {},
+      action: async () => {
+        await handleLogOut()
+        handleEscClick()
+      },
       icon: <LogOut />,
     },
   ];
