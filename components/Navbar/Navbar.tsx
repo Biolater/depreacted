@@ -16,7 +16,7 @@ import Logo from "@/assets/logo.svg";
 import Image from "next/image";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "../ui/button";
-
+import defaultProfileImg from "@/assets/defaultProfileImg.png"
 interface AUTH_BUTTON {
   label: string;
   href: string;
@@ -106,7 +106,7 @@ const Navbar = () => {
             height={40}
           />
         </Link>
-        <div className="hidden lg:flex items-center gap-3">
+        <div className={`hidden lg:flex items-center gap-3`}>
           {navLinks.map((link) => (
             <NavLink
               isActive={pathName === link.href}
@@ -116,10 +116,10 @@ const Navbar = () => {
             />
           ))}
         </div>
-        <div className="main-header__right flex items-center gap-1 sm:gap-2 md:gap-3">
+        <div className="main-header__right flex items-center gap-2 sm:gap-3 md:gap-4">
           {!loading && user && (
             <>
-              <div className="relative group/searchbar">
+              {/* <div className="relative group/searchbar">
                 <div className="absolute z-10 left-[5px] size-4 top-1/2 -translate-y-1/2">
                   <Search className="w-full h-full group-hover/searchbar:stroke-primary transition-all" />
                 </div>
@@ -128,11 +128,11 @@ const Navbar = () => {
                   placeholder="Search for diseases, symptoms, or articles"
                   title="Search for diseases, symptoms, or articles"
                 />
-              </div>
+              </div> */}
               <button onClick={handleAvatarClick}>
-                <Avatar className="hidden lg:block text-foreground cursor-pointer">
+                <Avatar className="block text-foreground cursor-pointer">
                   <AvatarImage
-                    src={user?.photoURL || ""}
+                    src={user?.photoURL || defaultProfileImg.src}
                     alt={user?.displayName || "Profile avatar"}
                   />
                   <AvatarFallback>
@@ -154,12 +154,14 @@ const Navbar = () => {
           {loading && (
             <Skeleton className="size-10 rounded-full bg-secondary/60" />
           )}
-          <button
-            className="cursor-pointer lg:hidden"
-            onClick={handleSidebarOpen}
-          >
-            <HamburgerIcon />
-          </button>
+          {!loading && (
+            <button
+              className="cursor-pointer lg:hidden"
+              onClick={handleSidebarOpen}
+            >
+              <HamburgerIcon />
+            </button>
+          )}
         </div>
       </div>
     </header>

@@ -1,21 +1,21 @@
-import puppeteer from "puppeteer";
-const allLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+// import puppeteer from "puppeteer";
+// const allLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
-type Disease = {
-  name: string;
-  url: string | null;
-  seeMore: {
-    text: string | null | undefined;
-    url: string | null | undefined;
-  };
-};
+// type Disease = {
+//   name: string;
+//   url: string | null;
+//   seeMore: {
+//     text: string | null | undefined;
+//     url: string | null | undefined;
+//   };
+// };
 
 export async function GET(request: Request) {
   // let data;
   // const training = async () => {
-  //   const browser = await puppeteer.launch();
+  //   const browser = await puppeteer.launch({ headless: false });
   //   const page = await browser.newPage();
-  //   await page.goto("https://www.mayoclinic.org/diseases-conditions");
+  //   await page.goto("https://www.mayoclinic.org/diseases-conditions", { timeout: 60000 });
 
   //   const diseaseNames: { [key: string]: Disease[] } = {};
 
@@ -24,7 +24,7 @@ export async function GET(request: Request) {
   //       `https://www.mayoclinic.org/diseases-conditions/index?letter=${letter}`
   //     );
   //     const diseases = (await page.$$(`.cmp-result-letters + ul li`)).filter(
-  //       (_, idx) => idx < 10
+  //       (_, idx) => idx < 30
   //     );
 
   //     const diseaseArr: Disease[] = [];
@@ -78,5 +78,5 @@ export async function GET(request: Request) {
   //   await browser.close();
   // };
   // await training();
-  return new Response("Hello");
+  return new Response("Hello World");
 }

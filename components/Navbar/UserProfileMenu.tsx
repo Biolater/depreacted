@@ -3,8 +3,6 @@ import { createPortal } from "react-dom";
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
-import { signOut } from "firebase/auth";
-import { auth } from "@/firebase"
 import Link from "next/link";
 import { useToast } from "../ui/use-toast";
 import {
@@ -14,7 +12,10 @@ import {
   LogOut,
   MessageCircle,
 } from "lucide-react";
-
+import { logout } from "@/lib/auth";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
+import { validateUsername } from "@/lib/utils";
 type Props = {
   handleEscClick: () => void;
 };
@@ -22,10 +23,26 @@ type Props = {
 const UserProfileMenu: React.FC<Props> = ({ handleEscClick }) => {
   const [isMounted, setIsMounted] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
-  const { toast } = useToast()
+  const { user } = useAuth()
+  const { toast } = useToast();
+  const router = useRouter();
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (
+      profileMenuRef.current &&
+      !profileMenuRef.current.contains(event.target as Node)
+    ) {
+      handleEscClick();
+    }
+  };
   useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+
     setIsMounted(true);
-    return () => setIsMounted(false);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+
+      setIsMounted(false);
+    };
   }, []);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -33,37 +50,40 @@ const UserProfileMenu: React.FC<Props> = ({ handleEscClick }) => {
         handleEscClick();
       }
     };
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        profileMenuRef.current &&
-        !profileMenuRef.current.contains(event.target as Node)
-      ) {
-        handleEscClick();
-      }
-    };
     document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("click", handleOutsideClick);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("click", handleOutsideClick);
     };
   }, [handleEscClick]);
   const handleLogOut = async () => {
     try {
-      await signOut(auth);
+      await logout();
       toast({
         title: "Logged out",
         description: "You have successfully logged out.",
-      })
+      });
+      router.push("/sign-in");
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong.",
+          variant: "destructive",
+        });
+      }
     }
   };
   const MENU_ITEMS = [
     {
       text: "Profile",
       icon: <CircleUserRound />,
-      link: "/profile",
+      link: `/${validateUsername(user?.displayName || "")}`,
     },
     {
       text: "Notifications",
@@ -86,8 +106,8 @@ const UserProfileMenu: React.FC<Props> = ({ handleEscClick }) => {
     {
       text: "Log out",
       action: async () => {
-        await handleLogOut()
-        handleEscClick()
+        await handleLogOut();
+        handleEscClick();
       },
       icon: <LogOut />,
     },
@@ -100,7 +120,7 @@ const UserProfileMenu: React.FC<Props> = ({ handleEscClick }) => {
         initial={{ y: -10, opacity: 0, scale: 0.95 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: -10, opacity: 0, scale: 0.95 }}
-        className="user-profile__menu origin-top hidden lg:block fixed z-[9999] top-14 right-4"
+        className="user-profile__menu origin-top block fixed z-[9999] top-14 right-4"
       >
         <div className="min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md w-56">
           <div className="px-3 py-2.5 text-sm font-semibold">

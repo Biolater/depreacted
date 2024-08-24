@@ -1,5 +1,5 @@
 "use client";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useEffect, useState } from "react";
 import { DiseaseConditionItem, Loading, ScrollToTop } from "@/components/index";
@@ -45,6 +45,33 @@ const DiseasesConditions = () => {
     };
     fetchDiseasesConditions();
   }, []);
+  // useEffect(() => {
+  //     const fetchDiseasesConditions = async () => {
+  //       try {
+  //         const response = await fetch("/diseases-conditions/api");
+  //         if (!response.ok) {
+  //           throw new Error("Network response was not ok");
+  //         }
+  //         const data: DiseasesConditions = await response.json();
+  //         if (data) {
+  //           Object.entries(data).forEach(([letter, conditions]) => {
+  //             try {
+  //               setDoc(doc(db, "diseases", letter), {conditions}, { merge: true });
+  //             } catch (err) {
+  //               console.log(err);
+  //             }
+  //           });
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching diseases:", error);
+  //         setError("An error occurred while fetching the diseases.");
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
+  
+  //     fetchDiseasesConditions();
+  //   }, []);
 
   return (
     <main className="px-4 py-8 sm:px-16 md:px-32">

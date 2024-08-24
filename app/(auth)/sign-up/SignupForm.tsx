@@ -1,8 +1,8 @@
 "use client";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "@/firebase";
-import { collection, addDoc } from "firebase/firestore"; 
-
+import { collection, query, where, getDocs, doc, setDoc } from "firebase/firestore";
+import { motion } from "framer-motion";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signUpFormSchema } from "@/schema";
+import { toast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 type FormItem = {
   name: "email" | "username" | "password" | "confirmPassword";
   placeholder: string;
@@ -47,7 +50,8 @@ const FORM_ITEMS: FormItem[] = [
   },
 ];
 
-const SignUpForm = () => {
+const SignUpForm: React.FC<{ onGoBack: () => void }> = ({ onGoBack }) => {
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -57,24 +61,57 @@ const SignUpForm = () => {
       confirmPassword: "",
     },
   });
+  const router = useRouter();
   const handleSignUp = async (
     email: string,
     password: string,
     username: string
   ) => {
     try {
+      setLoading(true)
+      const usersRef = collection(db, "users");
+      const checkEmail = query(usersRef, where("email", "==", email));
+      const checkUsername = query(usersRef, where("username", "==", username));
+      const checkEmailSnapshot = await getDocs(checkEmail);
+      const checkUsernameSnapshot = await getDocs(checkUsername);
+      if (checkEmailSnapshot.size > 0) {
+        throw new Error("Email already exists");
+      }
+      if (checkUsernameSnapshot.size > 0) {
+        throw new Error("Username already exists");
+      }
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      await addDoc(collection(db, "users"), {
+      await setDoc(doc(db, "users", userCredential.user.uid), {
         email: email,
         username: username,
         userId: userCredential.user.uid,
-      })
+        bio: "No bio",
+      });
+      toast({
+        title: "Sign up Success",
+        description: "You have successfully signed up",
+      });
+      router.push("/");
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        toast({
+          title: "Sign up Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Sign up Error",
+          description: "Something went wrong",
+          variant: "destructive",
+        });
+      }
+    }finally{
+      setLoading(false)
     }
   };
   const onSubmit = async (values: z.infer<typeof signUpFormSchema>) => {
@@ -82,7 +119,13 @@ const SignUpForm = () => {
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <motion.form
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 20 }}
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4"
+      >
         {FORM_ITEMS.map((formItem, idx) => (
           <FormField
             key={idx}
@@ -99,8 +142,21 @@ const SignUpForm = () => {
             )}
           />
         ))}
-        <Button type="submit">Submit</Button>
-      </form>
+        <div className="buttons flex items-center gap-2">
+          <Button
+            disabled={loading}
+            onClick={onGoBack}
+            type="button"
+            className="flex-grow"
+            variant={"secondary"}
+          >
+            Go Back
+          </Button>
+          <Button disabled={loading} className="flex-grow" type="submit">
+            Submit
+          </Button>
+        </div>
+      </motion.form>
     </Form>
   );
 };

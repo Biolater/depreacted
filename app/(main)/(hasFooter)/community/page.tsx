@@ -1,9 +1,9 @@
 const Community = () => {
   return (
     <main
-      id="news"
+      id="community"
     >
-      News
+      Community
     </main>
   );
 };

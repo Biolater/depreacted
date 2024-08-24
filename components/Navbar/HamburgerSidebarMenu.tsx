@@ -7,15 +7,22 @@ import {
   Book,
   Search,
   Newspaper,
-  Settings,
+  // Settings,
   MessageCircleIcon,
-  CircleUser,
+  // CircleUser,
+  // LogOut,
 } from "lucide-react";
 import { FC, useEffect, useState, useRef, MouseEventHandler } from "react";
 import { motion } from "framer-motion";
 import SidebarItem from "./SidebarItem";
+// import { logout } from "@/lib/auth";
+// import { toast } from "../ui/use-toast";
+// import { useAuth } from "@/contexts/AuthContext";
+// import { useRouter } from "next/navigation";
 const HamburgerSidebarMenu: FC<{ onClose: () => void }> = ({ onClose }) => {
   const pathName = usePathname();
+  // const { user, loading } = useAuth();
+  // const router = useRouter();
   const TOP_SIDEBAR_ITEMS = [
     {
       label: "Home",
@@ -43,18 +50,49 @@ const HamburgerSidebarMenu: FC<{ onClose: () => void }> = ({ onClose }) => {
       icon: <MessageCircleIcon />,
     },
   ];
-  const BOTTOM_SIDEBAR_ITEMS = [
-    {
-      label: "Profile",
-      href: "/profile",
-      icon: <CircleUser />,
-    },
-    {
-      label: "Settings",
-      href: "/settings",
-      icon: <Settings />,
-    },
-  ];
+  // const BOTTOM_SIDEBAR_ITEMS = [
+  //   {
+  //     label: "Profile",
+  //     href: "/profile",
+  //     icon: <CircleUser />,
+  //   },
+  //   {
+  //     label: "Settings",
+  //     href: "/settings",
+  //     icon: <Settings />,
+  //   },
+  //   {
+  //     label: "Logout",
+  //     hasAction: true,
+  //     icon: <LogOut />,
+  //     action: async () => {
+  //       onClose();
+  //       try {
+  //         await logout();
+  //         toast({
+  //           title: "Logged out",
+  //           description: "You have successfully logged out.",
+  //         });
+  //         router.push("/sign-in")
+  //       } catch (error) {
+  //         if (error instanceof Error) {
+  //           toast({
+  //             title: "Error",
+  //             description: error.message,
+  //             variant: "destructive",
+  //           });
+  //         } else {
+  //           toast({
+  //             title: "Error",
+  //             description: "Something went wrong.",
+  //             variant: "destructive",
+  //           });
+  //         }
+  //         console.log(error);
+  //       }
+  //     },
+  //   },
+  // ];
   const [isMounted, setIsMounted] = useState(false);
   const sidebarContentRef = useRef<HTMLDivElement>(null);
   const onOutsideClick: MouseEventHandler<HTMLDivElement> = (event) => {
@@ -113,18 +151,22 @@ const HamburgerSidebarMenu: FC<{ onClose: () => void }> = ({ onClose }) => {
                 />
               ))}
             </div>
-            <div className="sidebar__content__body__bottom flex flex-col gap-1">
-              {BOTTOM_SIDEBAR_ITEMS.map((item) => (
-                <SidebarItem
-                  onSelect={onClose}
-                  key={item.href}
-                  icon={item.icon}
-                  label={item.label}
-                  href={item.href}
-                  isActive={pathName === item.href}
-                />
-              ))}
-            </div>
+            {/* {!loading && user && (
+              <div className="sidebar__content__body__bottom flex flex-col gap-1">
+                {BOTTOM_SIDEBAR_ITEMS.map((item) => (
+                  <SidebarItem
+                    onSelect={onClose}
+                    onAction={item?.action}
+                    key={item?.href || item?.label}
+                    icon={item.icon}
+                    label={item.label}
+                    href={item.href}
+                    hasAction={item?.hasAction}
+                    isActive={pathName === item.href}
+                  />
+                ))}
+              </div>
+            )} */}
           </div>
         </motion.div>
       </motion.div>,

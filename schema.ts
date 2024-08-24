@@ -9,6 +9,7 @@ const signUpFormSchema = z
     username: z
       .string()
       .min(3, "Username must be at least 3 characters long")
+      .regex(/^\S+$/, "Username cannot contain spaces")
       .transform((val) => val.trim()),
     password: z
       .string()
@@ -39,4 +40,15 @@ const signUpFormSchema = z
     }
   });
 
-export { signUpFormSchema };
+const signInFormSchema = z.object({
+  email: z
+    .string()
+    .email("Please enter a valid email address (e.g., john.doe@example.com)")
+    .transform((val) => val.trim()),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters long")
+    .transform((val) => val.trim()),
+});
+
+export { signUpFormSchema, signInFormSchema };

@@ -71,7 +71,7 @@ html {
   scroll-padding-top: 3rem;
 }
 
-body{
+body {
   min-height: 100svh;
 }
 
@@ -97,7 +97,7 @@ body{
 }
 
 
-.signup-line .divider{
+.signup-line .divider {
   display: inline-block;
   position: absolute;
   top: -7px;

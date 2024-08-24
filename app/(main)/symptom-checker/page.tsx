@@ -14,7 +14,6 @@ const SUGGESTIONS = [
   "How can I improve my sleep?",
   "What are the benefits of regular exercise?",
   "How do I maintain a balanced diet?",
-  "What are some stress management techniques?",
 ];
 
 type ChatMessage = {

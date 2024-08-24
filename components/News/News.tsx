@@ -365,7 +365,6 @@ const News = () => {
       const response = await fetch(url, options);
       const data: HealthNews = await response.json();
       data.items = data?.items?.slice(0, 10);
-      console.log(data);
       if (data && data?.items?.length > 0) setHealthNews(data);
     } catch (err) {
       setNewsLoading(false);
@@ -412,7 +411,10 @@ const News = () => {
                           <Image
                             quality={100}
                             className="rounded-ss-xl rounded-se-xl w-full"
-                            src={newsItem?.images?.thumbnail || newsItem?.images?.thumbnailProxied}
+                            src={
+                              newsItem?.images?.thumbnail ||
+                              newsItem?.images?.thumbnailProxied
+                            }
                             width={280}
                             height={200}
                             alt="news"

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images:{
-        remotePatterns:[
+    images: {
+        remotePatterns: [
             {
                 protocol: 'https',
                 hostname: 'news.google.com',
@@ -11,6 +11,11 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'i.zedtranslate.com',
                 pathname: '/newsimage/**'
+            },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+                pathname: '/**',
             }
         ]
     }

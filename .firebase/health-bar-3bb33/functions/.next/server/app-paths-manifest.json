@@ -1,0 +1,13 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/[username]/page": "app/[username]/page.js",
+  "/(main)/page": "app/(main)/page.js",
+  "/(main)/symptom-checker/page": "app/(main)/symptom-checker/page.js",
+  "/(auth)/sign-up/page": "app/(auth)/sign-up/page.js",
+  "/(auth)/sign-in/page": "app/(auth)/sign-in/page.js",
+  "/(main)/(hasFooter)/news/page": "app/(main)/(hasFooter)/news/page.js",
+  "/(main)/(hasFooter)/diseases-conditions/api/route": "app/(main)/(hasFooter)/diseases-conditions/api/route.js",
+  "/(main)/(hasFooter)/community/page": "app/(main)/(hasFooter)/community/page.js",
+  "/(main)/(hasFooter)/diseases-conditions/page": "app/(main)/(hasFooter)/diseases-conditions/page.js"
+}
